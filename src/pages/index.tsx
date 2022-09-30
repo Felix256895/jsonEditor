@@ -1,9 +1,6 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
+import type { NextPage } from 'next'
+import Home from 'containers/Home'
 
-const Home: NextPage = () => {
-  return <div>fdsfa</div>;
-};
+const HomePage: NextPage = () => <Home />
 
-export default Home;
+export default HomePage

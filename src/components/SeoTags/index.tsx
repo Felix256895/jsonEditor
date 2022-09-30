@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 interface SeoTagsProps {
-  title: string;
-  description: string;
-  image: string;
+  title: string
+  description: string
+  image: string
 }
 
 export const SeoTags: React.FC<SeoTagsProps> = ({ title, description, image }) => (
@@ -15,4 +15,4 @@ export const SeoTags: React.FC<SeoTagsProps> = ({ title, description, image }) =
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
   </>
-);
+)

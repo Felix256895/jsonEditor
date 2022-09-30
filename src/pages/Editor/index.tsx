@@ -1,5 +1,5 @@
-import React from "react";
+import React from 'react'
 
-const EditorPage = () => <div>hello world</div>;
+const EditorPage = () => <div>EditorPage</div>
 
-export default EditorPage;
+export default EditorPage
