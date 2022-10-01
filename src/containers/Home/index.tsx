@@ -38,7 +38,7 @@ const HeroSection = () => {
       </Styles.StyledSubTitle>
       <Styles.StyledMinorTitle>Paste - Import - Fetch!</Styles.StyledMinorTitle>
       <Styles.StyledButtonWrapper>
-        <Styles.StyledButton link rel="prefetch" href="/editor" target="_blank">
+        <Styles.StyledButton rel="prefetch" href="/editor" target="_blank" link>
           GO TO EDITOR
         </Styles.StyledButton>
         <Link

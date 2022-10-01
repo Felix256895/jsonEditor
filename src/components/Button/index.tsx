@@ -87,22 +87,22 @@ const StyledButtonContent = styled.div`
   text-overflow: ellipsis;
 `
 
-export const Button: React.FC<ButtonProps> = ({
-  status,
-  block = false,
-  children,
-  link,
-  ...rest
-}) => {
-  return (
-    <StyledButton
-      as={link ? 'a' : 'button'}
-      type="button"
-      status={status ?? 'PRIMARY'}
-      block={block}
-      {...rest}
-    >
-      <StyledButtonContent>{children}</StyledButtonContent>
-    </StyledButton>
-  )
-}
+export const Button: React.FC<ButtonProps> = React.forwardRef<unknown, ButtonProps>(
+  (props, ref) => {
+    const { status, block = false, children, link = false, ...rest } = props
+    const buttonRef = (ref as any) || React.createRef<HTMLElement>()
+
+    return (
+      <StyledButton
+        as={link ? 'a' : 'button'}
+        type="button"
+        status={status ?? 'PRIMARY'}
+        block={block}
+        ref={buttonRef}
+        {...rest}
+      >
+        <StyledButtonContent>{children}</StyledButtonContent>
+      </StyledButton>
+    )
+  }
+)

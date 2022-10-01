@@ -8,11 +8,11 @@ const withPWA = require("next-pwa")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  sexportPathMap: async () => ({
+  exportPathMap: async () => ({
     "/": { page: "/" },
     "/editor": { page: "/Editor" },
     "/widget": { page: "/Widget" }
-  }),
+  })
 }
 
 module.exports = withPWA(nextConfig)
