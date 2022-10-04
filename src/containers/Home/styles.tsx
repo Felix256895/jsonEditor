@@ -157,3 +157,24 @@ export const StyledSponsorButton = styled(Button)<{ isBlue?: boolean }>`
     display: ${({ isBlue }) => isBlue && 'none'};
   }
 `
+
+export const StyledPreviewSection = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 85%;
+  margin: 0 auto;
+  padding: 0 3%;
+
+  @media only screen and (max-width: 768px) {
+    max-width: 80%;
+    display: none;
+  }
+`
+
+export const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.6));
+`

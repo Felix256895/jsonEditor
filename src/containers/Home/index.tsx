@@ -1,7 +1,10 @@
 import React, { useState, FC } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { FaGithub, FaHeart, FaLinkedin, FaTwitter } from 'react-icons/fa'
 import { SiVisualstudiocode } from 'react-icons/si'
+import { Button } from 'components/Button'
+import { Modal } from 'components/Modal'
 import * as Styles from './styles'
 
 const Navbar = () => (
@@ -25,7 +28,9 @@ const Navbar = () => (
 
 const HeroSection = () => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false)
-
+  const handleClick = () => {
+    console.log('handleClick')
+  }
   return (
     <Styles.StyledHeroSection>
       <Styles.StyledTitle>
@@ -51,9 +56,35 @@ const HeroSection = () => {
           </Styles.StyledSponsorButton>
         </Link>
       </Styles.StyledButtonWrapper>
+      <Styles.StyledButtonWrapper>
+        <Styles.StyledSponsorButton onClick={() => setModalVisible(true)}>
+          Help JSON Crack&apos;s Goals
+          <FaHeart />
+        </Styles.StyledSponsorButton>
+      </Styles.StyledButtonWrapper>
+      <Modal visible={isModalVisible} setVisible={setModalVisible}>
+        <Modal.Header>test</Modal.Header>
+        <Modal.Body> body</Modal.Body>
+        <Modal.Footer setVisible={setModalVisible}>
+          <Button onClick={() => setModalVisible(false)}>ok</Button>
+        </Modal.Footer>
+      </Modal>
     </Styles.StyledHeroSection>
   )
 }
+
+const PreviewSection = () => (
+  <Styles.StyledPreviewSection>
+    <Styles.StyledImageWrapper>
+      <Styles.StyledImage
+        width="1200"
+        height="863"
+        src="/assets/jsoncrack-screenshot.webp"
+        alt="preview"
+      />
+    </Styles.StyledImageWrapper>
+  </Styles.StyledPreviewSection>
+)
 
 const Home: FC = () => (
   <Styles.StyledHome>
@@ -62,6 +93,7 @@ const Home: FC = () => (
     </Head>
     <Navbar />
     <HeroSection />
+    <PreviewSection />
   </Styles.StyledHome>
 )
 
