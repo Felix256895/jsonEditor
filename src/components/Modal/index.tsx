@@ -17,7 +17,7 @@ type ModalType = {
 
 export interface ModalProps {
   visible: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
   setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 

@@ -4,6 +4,11 @@ import { Button } from 'components/Button'
 export const StyledButtonWrapper = styled.div`
   display: flex;
   gap: 18px;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 export const StyledImageWrapper = styled.div`
@@ -152,10 +157,6 @@ export const StyledSponsorButton = styled(Button)<{ isBlue?: boolean }>`
       color: ${({ theme }) => theme.FULL_WHITE};
     }
   }
-
-  @media only screen and (max-width: 768px) {
-    display: ${({ isBlue }) => isBlue && 'none'};
-  }
 `
 
 export const StyledPreviewSection = styled.section`
@@ -177,4 +178,171 @@ export const StyledImage = styled.img`
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.6));
+`
+
+export const StyledFeaturesSection = styled.section`
+  display: flex;
+  max-width: 85%;
+  margin: 0 auto;
+  padding: 50px 3%;
+  gap: 2rem;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    max-width: 80%;
+  }
+`
+
+export const StyledSectionCard = styled.div`
+  flex: 1;
+  text-align: center;
+`
+
+export const StyledCardTitle = styled.div`
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 1.5rem 0 0.5rem;
+`
+
+export const StyledCardIcon = styled.div``
+
+export const StyledCardDescription = styled.p`
+  color: #e0e0e0;
+  text-align: left;
+  line-height: 1.5rem;
+  font-size: 0.875rem;
+`
+
+export const StyledSection = styled.section<{ reverse?: boolean }>`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 85%;
+  margin: 0 auto;
+  gap: 4rem;
+  line-height: 1.5;
+  padding: 50px 3%;
+
+  & > div {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    max-width: 80%;
+    flex-direction: ${({ reverse }) => (reverse ? 'column-reverse' : 'column')};
+  }
+`
+
+export const StyledSectionArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 2rem;
+  margin-top: 3rem;
+
+  h2,
+  p {
+    text-align: left;
+    letter-spacing: unset;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    align-items: center;
+
+    h2,
+    p {
+      text-align: center;
+    }
+  }
+`
+
+export const StyledIframge = styled.iframe`
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  border: 2px solid ${({ theme }) => theme.INTERACTIVE_NORMAL};
+  border-radius: 6px;
+
+  @media only screen and (min-width: 768px) {
+    min-height: 384px;
+  }
+`
+
+export const StyledPaidSection = styled.section`
+  display: flex;
+  max-width: 85%;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 50px 3%;
+
+  @media only screen and (max-width: 768px) {
+    max-width: 80%;
+    flex-direction: column;
+  }
+`
+
+export const StyledAffiliate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+`
+
+export const StyledProducthunt = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+  border-right: 1px solid white;
+  padding-right: 3rem;
+
+  @media only screen and (max-width: 768px) {
+    border-right: none;
+    border-bottom: 1px solid white;
+    padding-bottom: 3rem;
+    padding-right: 0;
+  }
+`
+
+export const StyledSponsorSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 85%;
+  gap: 2rem;
+  line-height: 1.5;
+  padding: 50px 3%;
+
+  @media only screen and (max-width: 768px) {
+    max-width: 80%;
+  }
+`
+
+export const StyledFooter = styled.footer`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+  padding: 30px 3%;
+  border-top: 1px solid #b4b4b4;
+  opacity: 0.7;
+`
+
+export const StyledFooterText = styled.p`
+  color: #b4b4b4;
+`
+
+export const StyledIconLinks = styled.div`
+  display: flex;
+  gap: 20px;
+
+  ${StyledNavLink} {
+    color: unset;
+  }
 `

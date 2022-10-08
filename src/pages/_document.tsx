@@ -8,7 +8,7 @@ class MyDocument extends Document {
         <Head>
           <SeoTags
             description="Simple visualization tool for your JSON data. No forced structure, paste your JSON and view it instantly."
-            title="JSON Crack - Crack your data into pieces"
+            title="JSON Editor"
             image="https://jsoncrack.com/assets/jsoncrack.png"
           />
           <meta name="theme-color" content="#36393E" />
