@@ -1,5 +1,5 @@
 import React from 'react'
-import Script from 'next/Script'
+import Script from 'next/script'
 import { CARBONADS } from 'constants/url'
 import { IoMdClose } from 'react-icons/io'
 import styled from 'styled-components'
@@ -20,6 +20,7 @@ const StyledCloseBtn = styled.button`
 
 const StyledWrapper = styled.span<{ isEditor?: boolean }>`
   position: relative;
+  display: flex;
 
   #carbonads {
     width: 100%;
@@ -67,24 +68,26 @@ export const CarbonAds: React.FC<{ isEditor?: boolean }> = ({
           <IoMdClose color="white" size="15" />
         </StyledCloseBtn>
       )}
-      <Script
-        type="text/javascript"
-        src={CARBONADS}
-        id="_carbonads_js"
-        strategy="lazyOnload"
-        onLoad={() => {
-          const init = () => {
-            const parent = document.getElementById('carbon-wrapper')
-            const ads = document.getElementById('carbonads')
+      <>
+        <Script
+          type="text/javascript"
+          src={CARBONADS}
+          id="_carbonads_js"
+          strategy="lazyOnload"
+          onLoad={() => {
+            const init = () => {
+              const parent = document.getElementById('carbon-wrapper')
+              const ads = document.getElementById('carbonads')
 
-            if (ads === null) return setTimeout(() => init(), 500)
+              if (ads === null) return setTimeout(() => init(), 500)
 
-            parent?.appendChild(ads)
-          }
+              parent?.appendChild(ads)
+            }
 
-          init()
-        }}
-      />
+            init()
+          }}
+        />
+      </>
     </StyledWrapper>
   )
 }
