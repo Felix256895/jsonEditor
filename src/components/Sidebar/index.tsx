@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { GITHUB_URL, TWITTER_URL } from 'constants/url'
+import useConfig from 'hooks/store/useConfig'
+import useStored from 'hooks/store/useStored'
+import toast from 'react-hot-toast'
 import {
   AiOutlineDelete,
   AiFillGithub,
@@ -21,6 +24,7 @@ import { HiHeart } from 'react-icons/hi'
 import { MdCenterFocusWeak } from 'react-icons/md'
 import { TiFlowMerge } from 'react-icons/ti'
 import styled from 'styled-components'
+import shallow from 'zustand/shallow'
 import { Tooltip } from 'components/Tooltip'
 
 const StyledContainer = styled.div`
@@ -124,7 +128,43 @@ const StyledBottomWrapper = styled.nav`
   }
 `
 
+enum rotateLayout {
+  LEFT = 90,
+  UP = 180,
+  RIGHT = 270,
+  DOWN = 360
+}
+
+enum getNextLayout {
+  UP = 'RIGHT',
+  RIGHT = 'DOWN',
+  DOWN = 'LEFT',
+  LEFT = 'UP'
+}
+
 export const Sidebar: React.FC = () => {
+  const getJson = useConfig(state => state.getJson)
+  const setConfig = useConfig(state => state.setConfig)
+  const centerView = useConfig(state => state.centerView)
+
+  const [expand, layout, hideEditor] = useConfig(
+    state => [state.expand, state.layout, state.hideEditor],
+    shallow
+  )
+
+  const toggleExpandShrink = () => {
+    setConfig('expand', !expand)
+    toast(`${expand ? 'Shrunk' : 'Expanded'} nodes.`)
+  }
+
+  const handleSave = () => {
+    const a = document.createElement('a')
+    const file = new Blob([getJson()], { type: 'text/plain' })
+    a.href = window.URL.createObjectURL(file)
+    a.download = 'JSON.json'
+    a.click()
+  }
+
   return (
     <StyledContainer>
       <StyledTopWrapper>
@@ -135,7 +175,7 @@ export const Sidebar: React.FC = () => {
           </StyledElement>
         </Link>
         <Tooltip className="mobile" title="Edit JSON">
-          <StyledElement>
+          <StyledElement onClick={() => setConfig('hideEditor', !hideEditor)}>
             <AiOutlineEdit />
           </StyledElement>
         </Tooltip>
@@ -145,18 +185,18 @@ export const Sidebar: React.FC = () => {
           </StyledElement>
         </Tooltip>
         <Tooltip title="Rotate Layout">
-          <StyledElement>
-            <StyledFlowIcon rotate={0} />
+          <StyledElement onClick={() => setConfig('layout', getNextLayout[layout])}>
+            <StyledFlowIcon rotate={rotateLayout[layout]} />
           </StyledElement>
         </Tooltip>
         <Tooltip className="mobile" title="Center View">
-          <StyledElement>
+          <StyledElement onClick={centerView}>
             <MdCenterFocusWeak />
           </StyledElement>
         </Tooltip>
         <Tooltip className="desktop" title="Shrink Nodes">
-          <StyledElement>
-            <CgArrowsMergeAltH />
+          <StyledElement title="Toggle Expand/Shrink" onClick={toggleExpandShrink}>
+            {expand ? <CgArrowsMergeAltH /> : <CgArrowsShrinkH />}
           </StyledElement>
         </Tooltip>
         <Tooltip className="desktop" title="Expand Graph">
@@ -165,7 +205,7 @@ export const Sidebar: React.FC = () => {
           </StyledElement>
         </Tooltip>
         <Tooltip className="desktop" title="Save JSON">
-          <StyledElement>
+          <StyledElement onClick={handleSave}>
             <AiOutlineSave />
           </StyledElement>
         </Tooltip>

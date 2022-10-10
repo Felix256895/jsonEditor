@@ -19,7 +19,7 @@ type Config = typeof initialStates
 interface ConfigActions {
   setJson: (json: string) => void
   setConfig: (key: keyof Config, config: unknown) => void
-  getJson: () => void
+  getJson: () => string
   zoomIn: () => void
   zoomOut: () => void
   centerView: () => void
