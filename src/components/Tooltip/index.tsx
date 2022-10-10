@@ -45,7 +45,7 @@ const StyledTooltip = styled.div<{ visible: boolean }>`
 
 const StyledChildren = styled.div``
 
-interface TooltipProps {
+interface TooltipProps extends React.ComponentPropsWithoutRef<'div'> {
   children?: React.ReactNode
   title?: string
 }

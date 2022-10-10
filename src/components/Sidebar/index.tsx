@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { GITHUB_URL, TWITTER_URL } from 'constants/url'
 import {
   AiOutlineDelete,
   AiFillGithub,
@@ -24,7 +25,7 @@ import { Tooltip } from 'components/Tooltip'
 
 const StyledContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
   width: fit-content;
@@ -133,8 +134,7 @@ export const Sidebar: React.FC = () => {
             <StyledText secondary>C</StyledText>
           </StyledElement>
         </Link>
-
-        <Tooltip title="Edit JSON">
+        <Tooltip className="mobile" title="Edit JSON">
           <StyledElement>
             <AiOutlineEdit />
           </StyledElement>
@@ -149,7 +149,65 @@ export const Sidebar: React.FC = () => {
             <StyledFlowIcon rotate={0} />
           </StyledElement>
         </Tooltip>
+        <Tooltip className="mobile" title="Center View">
+          <StyledElement>
+            <MdCenterFocusWeak />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip className="desktop" title="Shrink Nodes">
+          <StyledElement>
+            <CgArrowsMergeAltH />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip className="desktop" title="Expand Graph">
+          <StyledElement>
+            <CgArrowsShrinkV />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip className="desktop" title="Save JSON">
+          <StyledElement>
+            <AiOutlineSave />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip className="mobile" title="Download Image">
+          <StyledElement>
+            <FiDownload />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip title="Clear JSON">
+          <StyledElement>
+            <AiOutlineDelete />
+          </StyledElement>
+        </Tooltip>
+        <Tooltip className="desktop" title="Share">
+          <StyledElement>
+            <AiOutlineLink />
+          </StyledElement>
+        </Tooltip>
       </StyledTopWrapper>
+      <StyledBottomWrapper>
+        <StyledElement>
+          <Link href={TWITTER_URL}>
+            <a aria-label="Twitter" rel="me" target="_blank">
+              <AiOutlineTwitter />
+            </a>
+          </Link>
+        </StyledElement>
+        <StyledElement>
+          <Link href={GITHUB_URL}>
+            <a aria-label="GitHub" rel="me" target="_blank">
+              <AiFillGithub />
+            </a>
+          </Link>
+        </StyledElement>
+        <StyledElement>
+          <Link href="https://github.com/sponsors/AykutSarac">
+            <a aria-label="GitHub Sponsors" rel="me" target="_blank">
+              <HiHeart />
+            </a>
+          </Link>
+        </StyledElement>
+      </StyledBottomWrapper>
     </StyledContainer>
   )
 }
