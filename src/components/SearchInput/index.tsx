@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useFocusNode } from 'hooks/useFocusNode'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoCloseSharp } from 'react-icons/io5'
 import styled from 'styled-components'
@@ -55,20 +56,34 @@ const StyledSearchButton = styled.button`
 `
 
 export const SearchInput: React.FC = () => {
-  const [value, setValue] = useState<string>('')
+  const [content, setContent, skip] = useFocusNode()
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    skip()
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setContent({ value: '', debounced: '' })
+  }
+
   return (
     <StyledSearchInputWrapper>
-      <StyledForm>
+      <StyledForm onSubmit={onSubmit}>
         <StyledInput
           type="text"
-          value={value}
+          value={content.value}
+          placeholder="Search Node"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValue(e?.target?.value)
+            setContent(val => ({ ...val, value: e?.target?.value }))
           }
         />
-        <StyledSearchButton>
-          <AiOutlineSearch />
-          <IoCloseSharp />
+        <StyledSearchButton type="reset" aria-label="search" onClick={handleClick}>
+          {content.value ? (
+            <IoCloseSharp size={18} />
+          ) : (
+            <AiOutlineSearch size={18} />
+          )}
         </StyledSearchButton>
       </StyledForm>
     </StyledSearchInputWrapper>
