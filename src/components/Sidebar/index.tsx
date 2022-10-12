@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { GITHUB_URL, TWITTER_URL } from 'constants/url'
+import { ClearModal } from 'containers/Modals/ClearModal'
+import { DownloadModal } from 'containers/Modals/DownloadModal'
+import { ImportModal } from 'containers/Modals/ImportModal'
+import { ShareModal } from 'containers/Modals/ShareModal'
 import useConfig from 'hooks/store/useConfig'
 import useStored from 'hooks/store/useStored'
 import toast from 'react-hot-toast'
@@ -146,6 +150,10 @@ export const Sidebar: React.FC = () => {
   const getJson = useConfig(state => state.getJson)
   const setConfig = useConfig(state => state.setConfig)
   const centerView = useConfig(state => state.centerView)
+  const [uploadVisible, setUploadVisible] = useState(false)
+  const [clearVisible, setClearVisible] = useState(false)
+  const [shareVisible, setShareVisible] = useState(false)
+  const [downloadVisible, setDownloadVisible] = useState(false)
 
   const [expand, layout, hideEditor] = useConfig(
     state => [state.expand, state.layout, state.hideEditor],
@@ -180,7 +188,7 @@ export const Sidebar: React.FC = () => {
           </StyledElement>
         </Tooltip>
         <Tooltip title="Import File">
-          <StyledElement>
+          <StyledElement onClick={() => setUploadVisible(true)}>
             <AiOutlineFileAdd />
           </StyledElement>
         </Tooltip>
@@ -209,18 +217,18 @@ export const Sidebar: React.FC = () => {
             <AiOutlineSave />
           </StyledElement>
         </Tooltip>
-        <Tooltip className="mobile" title="Download Image">
-          <StyledElement>
+        <Tooltip title="Download Image">
+          <StyledElement onClick={() => setDownloadVisible(true)}>
             <FiDownload />
           </StyledElement>
         </Tooltip>
         <Tooltip title="Clear JSON">
-          <StyledElement>
+          <StyledElement onClick={() => setClearVisible(true)}>
             <AiOutlineDelete />
           </StyledElement>
         </Tooltip>
         <Tooltip className="desktop" title="Share">
-          <StyledElement>
+          <StyledElement onClick={() => setShareVisible(true)}>
             <AiOutlineLink />
           </StyledElement>
         </Tooltip>
@@ -248,6 +256,10 @@ export const Sidebar: React.FC = () => {
           </Link>
         </StyledElement>
       </StyledBottomWrapper>
+      <ImportModal visible={uploadVisible} setVisible={setUploadVisible} />
+      <ClearModal visible={clearVisible} setVisible={setClearVisible} />
+      <ShareModal visible={shareVisible} setVisible={setShareVisible} />
+      <DownloadModal visible={downloadVisible} setVisible={setDownloadVisible} />
     </StyledContainer>
   )
 }

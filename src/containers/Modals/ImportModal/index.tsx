@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useConfig from 'hooks/store/useConfig'
+import toast from 'react-hot-toast'
 import { AiOutlineUpload } from 'react-icons/ai'
 import styled from 'styled-components'
 import { Button } from 'components/Button'
@@ -44,8 +45,33 @@ const StyledUploadMessage = styled.h3`
 
 export const ImportModal: React.FC<ModalProps> = ({ visible, setVisible }) => {
   const setJson = useConfig(state => state.setJson)
-  const [url, setUrl] = useState('')
-  const [file, setFile] = useState('')
+  const [url, setUrl] = useState<string>('')
+  const [file, setFile] = useState<File | null>(null)
+
+  const handleImportFile = () => {
+    if (url) {
+      setFile(null)
+      toast.loading('Loading...', { id: 'toastFetch' })
+      return fetch(url)
+        .then(res => res.json())
+        .then(json => {
+          setJson(JSON.stringify(json))
+          setVisible(false)
+        })
+        .catch(() => toast.error('Failed to fetch JSON!'))
+        .finally(() => toast.dismiss('toastFetch'))
+    }
+
+    if (file) {
+      const reader = new FileReader()
+
+      reader.readAsText(file, 'UTF-8')
+      reader.onload = function (data) {
+        setJson(data.target?.result as string)
+        setVisible(false)
+      }
+    }
+  }
 
   return (
     <Modal visible={visible} setVisible={setVisible}>
@@ -61,7 +87,7 @@ export const ImportModal: React.FC<ModalProps> = ({ visible, setVisible }) => {
         />
         <StyledUploadContainer>
           <input
-            value={file}
+            key={file?.name}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setFile(e?.target?.files?.item[0])
             }
@@ -70,11 +96,17 @@ export const ImportModal: React.FC<ModalProps> = ({ visible, setVisible }) => {
           />
           <AiOutlineUpload size={48} />
           <StyledUploadMessage>Click Here to Upload JSON</StyledUploadMessage>
-          <StyledFileName>None</StyledFileName>
+          <StyledFileName>{file?.name ?? 'None'}</StyledFileName>
         </StyledUploadContainer>
       </StyledBody>
       <Footer setVisible={setVisible}>
-        <Button status="SECONDARY">Import</Button>
+        <Button
+          status="SECONDARY"
+          onClick={handleImportFile}
+          disabled={!(file || url)}
+        >
+          Import
+        </Button>
       </Footer>
     </Modal>
   )
