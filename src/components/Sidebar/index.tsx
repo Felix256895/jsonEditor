@@ -217,7 +217,7 @@ export const Sidebar: React.FC = () => {
             <AiOutlineSave />
           </StyledElement>
         </Tooltip>
-        <Tooltip title="Download Image">
+        <Tooltip className="mobile" title="Download Image">
           <StyledElement onClick={() => setDownloadVisible(true)}>
             <FiDownload />
           </StyledElement>

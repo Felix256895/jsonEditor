@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Panes from 'containers/Editor/Panes'
 import styled from 'styled-components'
 import { Sidebar } from 'components/Sidebar'
+import { Switch } from 'components/Switch'
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const EditorPage = () => (
       <Sidebar />
       <StyledContainer>
         <Panes />
+        <Switch checked={true}>Switch</Switch>
       </StyledContainer>
     </StyledWrapper>
   </StyledContainer>

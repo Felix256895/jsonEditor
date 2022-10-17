@@ -122,7 +122,7 @@ const FeaturesSection = () => {
     }
   ]
   return (
-    <Styles.StyledFeaturesSection>
+    <Styles.StyledFeaturesSection id="features">
       {data.map(item => (
         <Styles.StyledSectionCard key={item.color}>
           <Styles.StyledCardIcon>
@@ -195,7 +195,7 @@ const SupportSection = () => (
 )
 
 const SponsorSection = () => (
-  <Styles.StyledSponsorSection>
+  <Styles.StyledSponsorSection id="sponsor">
     <Styles.StyledSubTitle>Sponsors</Styles.StyledSubTitle>
     <Styles.StyledMinorTitle>
       Your supports make JSON Crack possible to continue and accessible for everyone!
