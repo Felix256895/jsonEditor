@@ -39,6 +39,7 @@ export const Error: React.FC<{ hasError: boolean }> = ({ hasError }) => (
         ) : (
           <MdOutlineCheckCircleOutline size={20} />
         )}
+        {hasError ? 'Invalid JSON' : 'JSON Valid'}
       </StyledTitle>
     </StyledWrapper>
   </StyledContainer>

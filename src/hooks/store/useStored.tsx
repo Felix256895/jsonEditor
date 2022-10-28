@@ -10,6 +10,7 @@ export type Sponsor = {
 export interface Config {
   lightMode: boolean
   hideCollapse: boolean
+  hideChildrenCount: boolean
   sponsors: {
     users: Sponsor[]
     nextDate: number
@@ -17,6 +18,7 @@ export interface Config {
   setSponsors: (sponsors: Sponsor[]) => void
   setLightTheme: (theme: boolean) => void
   toggleHideCollapse: (value: boolean) => void
+  toggleHideChildrenCount: (value: boolean) => void
 }
 
 const getTomorrow = () => {
@@ -31,6 +33,7 @@ const useStored = create(
     (set, get) => ({
       lightMode: false,
       hideCollapse: false,
+      hideChildrenCount: true,
       sponsors: {
         users: [],
         nextDate: Date.now()
@@ -52,7 +55,8 @@ const useStored = create(
         set({
           hideCollapse
         })
-      }
+      },
+      toggleHideChildrenCount: (value: boolean) => set({ hideChildrenCount: value })
     }),
     {
       name: 'config'
