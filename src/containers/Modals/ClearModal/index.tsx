@@ -1,6 +1,6 @@
 import React from 'react'
-import useConfig from 'hooks/store/useConfig'
 import toast from 'react-hot-toast'
+import useConfig from 'store/useConfig'
 import { Button } from 'components/Button'
 import { Modal, ModalProps } from 'components/Modal'
 

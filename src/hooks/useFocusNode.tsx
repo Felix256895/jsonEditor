@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import useConfig from 'hooks/store/useConfig'
+import useConfig from 'store/useConfig'
 import { searchQuery, cleanupHighlight, highlightMatchedNodes } from 'utils/search'
 
 export const useFocusNode = () => {

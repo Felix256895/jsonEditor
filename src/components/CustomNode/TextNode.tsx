@@ -1,7 +1,8 @@
 import React, { useRef } from 'react'
-import useConfig from 'hooks/store/useConfig'
-import useStored from 'hooks/store/useStored'
 import { MdLink, MdLinkOff } from 'react-icons/md'
+import useConfig from 'store/useConfig'
+import useGraph from 'store/useGraph'
+import useStored from 'store/useStored'
 import styled from 'styled-components'
 import { CustomNodeProps } from './index'
 import * as Styles from './style'
@@ -33,23 +34,22 @@ const StyledExpand = styled.button`
   }
 `
 
-export const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse }) => {
+const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse }) => {
   const { id, text, width, height, data } = node
   const ref = useRef(null)
   const hideCollapse = useStored(state => state.hideCollapse)
   const hideChildrenCount = useStored(state => state.hideChildrenCount)
-  // const expandNodes = useGraph(state => state.expandNodes);
-  // const collapseNodes = useGraph(state => state.collapseNodes);
-  // const isExpanded = useGraph(state => state.collapsedParents.includes(id));
+  const expandNodes = useGraph(state => state.expandNodes)
+  const collapseNodes = useGraph(state => state.collapseNodes)
+  const isExpanded = useGraph(state => state.collapsedParents.includes(id))
   const performanceMode = useConfig(state => state.performanceMode)
-  // const { inViewport } = useInViewport(ref);
 
-  // const handleExpand = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.stopPropagation();
+  const handleExpand = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
 
-  //   if (!isExpanded) collapseNodes(id);
-  //   else expandNodes(id);
-  // };
+    if (!isExpanded) collapseNodes(id)
+    else expandNodes(id)
+  }
 
   return (
     <Styles.StyledForeignObject
@@ -81,12 +81,17 @@ export const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse })
           </Styles.StyledChildrenCount>
         )}
 
-        {/* {inViewport && data.isParent && hasCollapse && !hideCollapse && (
+        {inViewport && data.isParent && hasCollapse && !hideCollapse && (
           <StyledExpand onClick={handleExpand}>
             {isExpanded ? <MdLinkOff size={18} /> : <MdLink size={18} />}
           </StyledExpand>
-        )} */}
+        )}
       </StyledWrapper>
     </Styles.StyledForeignObject>
   )
 }
+
+const propsAreEqual = (prev: CustomNodeProps, next: CustomNodeProps) =>
+  prev.node.text === next.node.text && prev.node.width === next.node.width
+
+export default React.memo(TextNode, propsAreEqual)

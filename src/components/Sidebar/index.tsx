@@ -5,8 +5,6 @@ import { ClearModal } from 'containers/Modals/ClearModal'
 import { DownloadModal } from 'containers/Modals/DownloadModal'
 import { ImportModal } from 'containers/Modals/ImportModal'
 import { ShareModal } from 'containers/Modals/ShareModal'
-import useConfig from 'hooks/store/useConfig'
-import useStored from 'hooks/store/useStored'
 import toast from 'react-hot-toast'
 import {
   AiOutlineDelete,
@@ -27,9 +25,13 @@ import { FiDownload } from 'react-icons/fi'
 import { HiHeart } from 'react-icons/hi'
 import { MdCenterFocusWeak } from 'react-icons/md'
 import { TiFlowMerge } from 'react-icons/ti'
+import { VscCollapseAll, VscExpandAll } from 'react-icons/vsc'
+import useConfig from 'store/useConfig'
+import useGraph from 'store/useGraph'
 import styled from 'styled-components'
 import shallow from 'zustand/shallow'
 import { Tooltip } from 'components/Tooltip'
+import { getNextDirection } from 'utils/getNextDirection'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -132,38 +134,25 @@ const StyledBottomWrapper = styled.nav`
   }
 `
 
-enum rotateLayout {
-  LEFT = 90,
-  UP = 180,
-  RIGHT = 270,
-  DOWN = 360
-}
-
-enum getNextLayout {
-  UP = 'RIGHT',
-  RIGHT = 'DOWN',
-  DOWN = 'LEFT',
-  LEFT = 'UP'
+const rotateLayout = (direction: 'LEFT' | 'RIGHT' | 'DOWN' | 'UP') => {
+  if (direction === 'LEFT') return 90
+  if (direction === 'UP') return 180
+  if (direction === 'RIGHT') return 270
+  return 360
 }
 
 export const Sidebar: React.FC = () => {
-  const getJson = useConfig(state => state.getJson)
-  const setConfig = useConfig(state => state.setConfig)
-  const centerView = useConfig(state => state.centerView)
   const [uploadVisible, setUploadVisible] = useState(false)
   const [clearVisible, setClearVisible] = useState(false)
   const [shareVisible, setShareVisible] = useState(false)
   const [downloadVisible, setDownloadVisible] = useState(false)
 
-  const [expand, layout, hideEditor] = useConfig(
-    state => [state.expand, state.layout, state.hideEditor],
-    shallow
-  )
-
-  const toggleExpandShrink = () => {
-    setConfig('expand', !expand)
-    toast(`${expand ? 'Shrunk' : 'Expanded'} nodes.`)
-  }
+  const getJson = useConfig(state => state.getJson)
+  const setConfig = useConfig(state => state.setConfig)
+  const centerView = useConfig(state => state.centerView)
+  const collapseGraph = useGraph(state => state.collapseGraph)
+  const expandGraph = useGraph(state => state.expandGraph)
+  const setDirection = useGraph(state => state.setDirection)
 
   const handleSave = () => {
     const a = document.createElement('a')
@@ -171,6 +160,33 @@ export const Sidebar: React.FC = () => {
     a.href = window.URL.createObjectURL(file)
     a.download = 'JSON.json'
     a.click()
+  }
+
+  const [graphCollapsed, direction] = useGraph(state => [
+    state.graphCollapsed,
+    state.direction
+  ])
+
+  const [foldNodes, hideEditor] = useConfig(
+    state => [state.foldNodes, state.hideEditor],
+    shallow
+  )
+
+  const toggleFoldNodes = () => {
+    setConfig('foldNodes', !foldNodes)
+    toast(`${foldNodes ? 'Unfolded' : 'Folded'} nodes`)
+  }
+
+  const toggleDirection = () => {
+    const nextDirection = getNextDirection(direction)
+    setDirection(nextDirection)
+  }
+
+  const toggleExpandCollapseGraph = () => {
+    if (graphCollapsed) expandGraph()
+    else collapseGraph()
+
+    toast(`${graphCollapsed ? 'Expanded' : 'Collapsed'} graph.`)
   }
 
   return (
@@ -193,8 +209,8 @@ export const Sidebar: React.FC = () => {
           </StyledElement>
         </Tooltip>
         <Tooltip title="Rotate Layout">
-          <StyledElement onClick={() => setConfig('layout', getNextLayout[layout])}>
-            <StyledFlowIcon rotate={rotateLayout[layout]} />
+          <StyledElement onClick={toggleDirection}>
+            <StyledFlowIcon rotate={rotateLayout(direction)} />
           </StyledElement>
         </Tooltip>
         <Tooltip className="mobile" title="Center View">
@@ -202,14 +218,20 @@ export const Sidebar: React.FC = () => {
             <MdCenterFocusWeak />
           </StyledElement>
         </Tooltip>
-        <Tooltip className="desktop" title="Shrink Nodes">
-          <StyledElement title="Toggle Expand/Shrink" onClick={toggleExpandShrink}>
-            {expand ? <CgArrowsMergeAltH /> : <CgArrowsShrinkH />}
+        <Tooltip
+          className="desktop"
+          title={foldNodes ? 'Unfold Nodes' : 'Fold Nodes'}
+        >
+          <StyledElement onClick={toggleFoldNodes}>
+            {foldNodes ? <CgArrowsShrinkH /> : <CgArrowsMergeAltH />}
           </StyledElement>
         </Tooltip>
-        <Tooltip className="desktop" title="Expand Graph">
-          <StyledElement>
-            <CgArrowsShrinkV />
+        <Tooltip
+          className="desktop"
+          title={graphCollapsed ? 'Expand Graph' : 'Collapse Graph'}
+        >
+          <StyledElement onClick={toggleExpandCollapseGraph}>
+            {graphCollapsed ? <VscExpandAll /> : <VscCollapseAll />}
           </StyledElement>
         </Tooltip>
         <Tooltip className="desktop" title="Save JSON">

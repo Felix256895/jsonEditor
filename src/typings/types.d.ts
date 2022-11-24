@@ -1,4 +1,4 @@
-type CanvasDirection = "LEFT" | "RIGHT" | "DOWN" | "UP";
+type CanvasDirection = 'LEFT' | 'RIGHT' | 'DOWN' | 'UP';
 
 interface CustomNodeData {
   isParent: true;

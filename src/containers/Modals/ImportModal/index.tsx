@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import useConfig from 'hooks/store/useConfig'
 import toast from 'react-hot-toast'
 import { AiOutlineUpload } from 'react-icons/ai'
+import useConfig from 'store/useConfig'
 import styled from 'styled-components'
 import { Button } from 'components/Button'
 import { Input } from 'components/Input'

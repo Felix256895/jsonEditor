@@ -1,5 +1,5 @@
 import React from 'react'
-import useStored, { Sponsor } from 'hooks/store/useStored'
+import useStored, { Sponsor } from 'store/useStored'
 import styled from 'styled-components'
 
 const StyledSponsorsWrapper = styled.ul`

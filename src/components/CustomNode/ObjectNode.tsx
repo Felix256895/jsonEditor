@@ -1,5 +1,5 @@
 import React from 'react'
-import useConfig from 'hooks/store/useConfig'
+import useConfig from 'store/useConfig'
 import { CustomNodeProps } from './index'
 import * as Styles from './style'
 
