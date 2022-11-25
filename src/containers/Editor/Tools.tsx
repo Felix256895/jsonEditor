@@ -1,5 +1,5 @@
 import React from 'react'
-// import { SettingsModal } from 'containers/Modals/SettingsModal'
+import { SettingsModal } from 'containers/Modals/SettingsModal'
 import { AiOutlineFullscreen, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
 import { FiDownload } from 'react-icons/fi'
 import { MdCenterFocusWeak } from 'react-icons/md'
@@ -89,7 +89,7 @@ export const Tools: React.FC = () => {
         </StyledToolElement>
       </StyledTools>
       <DownloadModal visible={isDownloadVisible} setVisible={setDownloadVisible} />
-      {/* <SettingsModal visible={settingsVisible} setVisible={setSettingsVisible} /> */}
+      <SettingsModal visible={settingsVisible} setVisible={setSettingsVisible} />
     </>
   )
 }

@@ -2,8 +2,8 @@ import React from 'react'
 import useStored from 'store/useStored'
 import styled from 'styled-components'
 import shallow from 'zustand/shallow'
-import { Modal } from 'components/Modal'
-import Toggle from 'components/Toggle'
+import { Modal, ModalProps } from 'components/Modal'
+import { Toggle } from 'components/Toggle'
 
 const { Header, Body, Footer } = Modal
 
@@ -18,11 +18,8 @@ const StyledModalWrapper = styled.div`
   gap: 20px;
 `
 
-export const SettingsModal: React.FC<{
-  visible: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>
-}> = ({ visible, setVisible }) => {
-  const lightmode = useStored(state => state.lightMode)
+export const SettingsModal: React.FC<ModalProps> = ({ visible, setVisible }) => {
+  const lightMode = useStored(state => state.lightMode)
   const setLightTheme = useStored(state => state.setLightTheme)
   const [toggleHideCollapse, hideCollapse] = useStored(
     state => [state.toggleHideCollapse, state.hideCollapse],
@@ -48,8 +45,8 @@ export const SettingsModal: React.FC<{
             Hide Children Count
           </StyledToggle>
           <StyledToggle
-            onChange={() => setLightTheme(!lightmode)}
-            checked={lightmode}
+            onChange={() => setLightTheme(!lightMode)}
+            checked={lightMode}
           >
             Enable Light Theme
           </StyledToggle>

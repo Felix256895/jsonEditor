@@ -17,10 +17,11 @@ const rootProps = {
   ry: 50
 }
 
-export const CustomNode: React.FC<NodeProps> = NodeProps => {
-  const { text, data } = NodeProps.properties
+export const CustomNode: React.FC<NodeProps> = nodeProps => {
+  const { text, data } = nodeProps.properties
+
   return (
-    <Node {...NodeProps} {...(data.isEmpty && rootProps)} lable={<React.Fragment />}>
+    <Node {...nodeProps} {...(data.isEmpty && rootProps)} label={<React.Fragment />}>
       {({ node, x, y }) => {
         if (Array.isArray(text)) {
           return <ObjectNode node={node as NodeData} x={x} y={y} />
@@ -28,8 +29,8 @@ export const CustomNode: React.FC<NodeProps> = NodeProps => {
 
         return (
           <TextNode
-            hasCollapse={data.childrenCount > 0}
             node={node as NodeData}
+            hasCollapse={data.childrenCount > 0}
             x={x}
             y={y}
           />

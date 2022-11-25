@@ -1,22 +1,13 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { MdLink, MdLinkOff } from 'react-icons/md'
 import useConfig from 'store/useConfig'
 import useGraph from 'store/useGraph'
 import useStored from 'store/useStored'
 import styled from 'styled-components'
-import { CustomNodeProps } from './index'
-import * as Styles from './style'
+import { CustomNodeProps } from 'components/CustomNode'
+import * as Styled from './style'
 
 const inViewport = true
-
-const StyledWrapper = styled.div<{ hasCollapse: boolean }>`
-  display: flex;
-  justify-content: ${({ hasCollapse }) =>
-    hasCollapse ? 'space-between' : 'center'};
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`
 
 const StyledExpand = styled.button`
   pointer-events: all;
@@ -34,9 +25,23 @@ const StyledExpand = styled.button`
   }
 `
 
-const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse }) => {
+const StyledTextNodeWrapper = styled.div<{ hasCollapse: boolean }>`
+  display: flex;
+  justify-content: ${({ hasCollapse }) =>
+    hasCollapse ? 'space-between' : 'center'};
+  align-items: center;
+  height: 100%;
+  width: 100%;
+`
+
+const TextNode: React.FC<CustomNodeProps> = ({
+  node,
+  x,
+  y,
+  hasCollapse = false
+}) => {
   const { id, text, width, height, data } = node
-  const ref = useRef(null)
+  const ref = React.useRef(null)
   const hideCollapse = useStored(state => state.hideCollapse)
   const hideChildrenCount = useStored(state => state.hideChildrenCount)
   const expandNodes = useGraph(state => state.expandNodes)
@@ -46,39 +51,37 @@ const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse }) => {
 
   const handleExpand = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-
-    if (!isExpanded) collapseNodes(id)
-    else expandNodes(id)
+    !isExpanded ? collapseNodes(id) : expandNodes(id)
   }
 
   return (
-    <Styles.StyledForeignObject
+    <Styled.StyledForeignObject
       width={width}
       height={height}
       x={0}
       y={0}
-      ref={ref}
       hideCollapse={hideCollapse}
       hasCollapse={data.isParent && hasCollapse}
+      ref={ref}
     >
-      <StyledWrapper hasCollapse={data.isParent && !hideCollapse}>
+      <StyledTextNodeWrapper hasCollapse={data.isParent && !hideCollapse}>
         {(!performanceMode || inViewport) && (
-          <Styles.StyledKey
+          <Styled.StyledKey
             data-x={x}
             data-y={y}
             data-key={JSON.stringify(text)}
             parent={data.isParent}
           >
-            <Styles.StyledLinkItUrl>
+            <Styled.StyledLinkItUrl>
               {JSON.stringify(text).replaceAll('"', '')}
-            </Styles.StyledLinkItUrl>
-          </Styles.StyledKey>
+            </Styled.StyledLinkItUrl>
+          </Styled.StyledKey>
         )}
 
         {data.isParent && data.childrenCount > 0 && !hideChildrenCount && (
-          <Styles.StyledChildrenCount>
+          <Styled.StyledChildrenCount>
             ({data.childrenCount})
-          </Styles.StyledChildrenCount>
+          </Styled.StyledChildrenCount>
         )}
 
         {inViewport && data.isParent && hasCollapse && !hideCollapse && (
@@ -86,12 +89,13 @@ const TextNode: React.FC<CustomNodeProps> = ({ node, x, y, hasCollapse }) => {
             {isExpanded ? <MdLinkOff size={18} /> : <MdLink size={18} />}
           </StyledExpand>
         )}
-      </StyledWrapper>
-    </Styles.StyledForeignObject>
+      </StyledTextNodeWrapper>
+    </Styled.StyledForeignObject>
   )
 }
 
-const propsAreEqual = (prev: CustomNodeProps, next: CustomNodeProps) =>
-  prev.node.text === next.node.text && prev.node.width === next.node.width
+function propsAreEqual(prev: CustomNodeProps, next: CustomNodeProps) {
+  return prev.node.text === next.node.text && prev.node.width === next.node.width
+}
 
 export default React.memo(TextNode, propsAreEqual)

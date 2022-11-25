@@ -2,7 +2,7 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import { Allotment } from 'allotment'
 import 'allotment/dist/style.css'
-// import { JsonEditor } from "containers/Editor/JsonEditor";
+import { JsonEditor } from 'containers/Editor/JsonEditor'
 import useConfig from 'store/useConfig'
 import styled from 'styled-components'
 
@@ -33,7 +33,7 @@ const Panes: React.FC = () => {
         maxSize={isMobile ? Infinity : 800}
         visible={!hideEditor}
       >
-        {/* <JsonEditor /> */}
+        <JsonEditor />
       </Allotment.Pane>
       <Allotment.Pane minSize={0} maxSize={isMobile && !hideEditor ? 0 : Infinity}>
         <LiveEditor />

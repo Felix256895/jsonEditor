@@ -128,7 +128,7 @@ const GraphComponent = ({
           }}
         >
           <Canvas
-            className="jsoncrack-canvas"
+            className="json-canvas"
             nodes={nodes}
             edges={edges}
             maxWidth={size.width}

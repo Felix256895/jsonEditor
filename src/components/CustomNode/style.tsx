@@ -1,7 +1,7 @@
 import { LinkItUrl } from 'react-linkify-it'
 import styled, { DefaultTheme } from 'styled-components'
 
-export const getTypeColor = (value: string, theme: DefaultTheme) => {
+const getTypeColor = (value: string, theme: DefaultTheme) => {
   if (!Number.isNaN(+value)) return '#FD0079'
   if (value === 'true') return theme.TEXT_POSITIVE
   if (value === 'false') return theme.TEXT_DANGER
@@ -51,11 +51,7 @@ export const StyledForeignObject = styled.foreignObject<{
   }
 `
 
-export const getKeyColor = (
-  theme: DefaultTheme,
-  parent: boolean,
-  objectKey: boolean
-) => {
+const getKeyColor = (theme: DefaultTheme, parent: boolean, objectKey: boolean) => {
   if (parent) return theme.NODE_KEY
   if (objectKey) return theme.OBJECT_KEY
   return theme.TEXT_POSITIVE

@@ -1,10 +1,18 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type Sponsor = {
-  handler: string
+type Sponsor = {
+  handle: string
   avatar: string
   profile: string
+}
+
+function getTomorrow() {
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  return new Date(tomorrow).getTime()
 }
 
 export interface Config {
@@ -21,16 +29,9 @@ export interface Config {
   toggleHideChildrenCount: (value: boolean) => void
 }
 
-const getTomorrow = () => {
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  return new Date(tomorrow).getTime()
-}
-
 const useStored = create(
   persist<Config>(
-    (set, get) => ({
+    set => ({
       lightMode: false,
       hideCollapse: false,
       hideChildrenCount: true,
@@ -38,24 +39,18 @@ const useStored = create(
         users: [],
         nextDate: Date.now()
       },
-      setSponsors: (users: Sponsor[]) => {
+      setLightTheme: (value: boolean) =>
+        set({
+          lightMode: value
+        }),
+      setSponsors: users =>
         set({
           sponsors: {
             users,
             nextDate: getTomorrow()
           }
-        })
-      },
-      setLightTheme: (lightMode: boolean) => {
-        set({
-          lightMode
-        })
-      },
-      toggleHideCollapse: (hideCollapse: boolean) => {
-        set({
-          hideCollapse
-        })
-      },
+        }),
+      toggleHideCollapse: (value: boolean) => set({ hideCollapse: value }),
       toggleHideChildrenCount: (value: boolean) => set({ hideChildrenCount: value })
     }),
     {

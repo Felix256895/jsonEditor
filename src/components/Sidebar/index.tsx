@@ -183,8 +183,7 @@ export const Sidebar: React.FC = () => {
   }
 
   const toggleExpandCollapseGraph = () => {
-    if (graphCollapsed) expandGraph()
-    else collapseGraph()
+    graphCollapsed ? expandGraph() : collapseGraph()
 
     toast(`${graphCollapsed ? 'Expanded' : 'Collapsed'} graph.`)
   }

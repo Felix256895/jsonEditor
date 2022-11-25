@@ -39,7 +39,11 @@ const StyledToggle = styled.div<{ active: boolean }>`
   }
 `
 
-const Toggle: React.FC<ToggleProps> = ({ children, checked = false, onChange }) => {
+export const Toggle: React.FC<ToggleProps> = ({
+  children,
+  checked = false,
+  onChange
+}) => {
   const [isChecked, setIsChecked] = React.useState(checked)
 
   const handleClick = () => {
@@ -61,5 +65,3 @@ const Toggle: React.FC<ToggleProps> = ({ children, checked = false, onChange }) 
     </StyledToggleWrapper>
   )
 }
-
-export default Toggle
